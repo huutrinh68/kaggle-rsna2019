@@ -1,10 +1,5 @@
-import os
-import sys
-
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-
-from common import *
-from kaggle import *
+from src.common import *
+import src.kaggle as kaggle
 
 
 def get_args():
@@ -77,8 +72,8 @@ def main():
 
     df = parse_position(df)
 
-    df['WindowCenter'] = df.WindowCenter.apply(lambda x: misc.get_dicom_value(x))
-    df['WindowWidth'] = df.WindowWidth.apply(lambda x: misc.get_dicom_value(x))
+    df['WindowCenter'] = df.WindowCenter.apply(lambda x: kaggle.get_dicom_value(x))
+    df['WindowWidth'] = df.WindowWidth.apply(lambda x: kaggle.get_dicom_value(x))
     df['PositionOrd'] = df.groupby('SeriesInstanceUID')[['Position3']].rank() / df.groupby('SeriesInstanceUID')[['Position3']].transform('count')
 
     df = add_adjacent_labels(df)

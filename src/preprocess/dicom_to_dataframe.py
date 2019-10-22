@@ -1,10 +1,5 @@
-import os
-import sys
-
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-
-from common import *
-from kaggle import *
+from src.common import *
+import src.kaggle as kaggle
 
 def get_args():
     parser = argparse.ArgumentParser()
@@ -53,17 +48,17 @@ def create_record(item, dirname):
         'labels': ' '.join(labels),
         'n_label': len(labels),
     }
-    record.update(get_dicom_raw(dicom))
+    record.update(kaggle.get_dicom_raw(dicom))
 
     raw = dicom.pixel_array
     slope = float(record['RescaleSlope'])
     intercept = float(record['RescaleIntercept'])
-    center = get_dicom_value(record['WindowCenter'])
-    width = get_dicom_value(record['WindowWidth'])
+    center = kaggle.get_dicom_value(record['WindowCenter'])
+    width = kaggle.get_dicom_value(record['WindowWidth'])
 
-    image = rescale_image(raw, slope, intercept)
-    doctor = apply_window(image, center, width)
-    custom = apply_window(image, 40, 80)
+    image = kaggle.rescale_image(raw, slope, intercept)
+    doctor = kaggle.apply_window(image, center, width)
+    custom = kaggle.apply_window(image, 40, 80)
 
     record.update({
         'raw_max': raw.max(),

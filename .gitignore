@@ -3,3 +3,5 @@ data
 __pycache__
 appian
 cache
+apex
+se_resnext50_32x4d

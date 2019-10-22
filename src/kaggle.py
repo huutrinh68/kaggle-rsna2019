@@ -1,4 +1,4 @@
-from common  import *
+from src.common  import *
 
 def get_dicom_value(x, cast=int):
     if type(x) in [pydicom.multival.MultiValue, tuple]:

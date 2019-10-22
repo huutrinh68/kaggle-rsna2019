@@ -1,10 +1,5 @@
-import os
-import sys
-
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-
-from common import *
-from kaggle import *
+from src.common import *
+from src.kaggle import *
 
 def get_args():
     parser = argparse.ArgumentParser()
