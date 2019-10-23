@@ -84,10 +84,11 @@ from apex import amp
 from sklearn.metrics import f1_score, roc_auc_score, log_loss
 
 
+import warnings
+warnings.filterwarnings('ignore')
+
 # constant #
 PI  = np.pi
 INF = np.inf
 EPS = 1e-12
-
-
 

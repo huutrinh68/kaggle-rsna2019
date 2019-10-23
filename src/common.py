@@ -10,7 +10,7 @@ from lib.net.rate import *
 COMMON_STRING ='@%s:  \n' % os.path.basename(__file__)
 
 if 1:
-    SEED = int(time.time()) #35202   #35202  #123  #
+    SEED = int(time.time())
     random.seed(SEED)
     np.random.seed(SEED)
     torch.manual_seed(SEED)
@@ -34,7 +34,7 @@ if 1:
         NUM_CUDA_DEVICES = 1
 
     COMMON_STRING += '\t\ttorch.cuda.device_count()      = %d\n'%torch.cuda.device_count()
-    #print ('\t\ttorch.cuda.current_device()    =', torch.cuda.current_device())
+    COMMON_STRING += '\t\ttorch.cuda.current_device()    = %d\n'%torch.cuda.current_device()
 
 
 COMMON_STRING += '\n'

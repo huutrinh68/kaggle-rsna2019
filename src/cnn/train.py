@@ -3,9 +3,6 @@ os.environ['CUDA_VISIBLE_DEVICES']='0'
 
 from src.common import *
 import src.cnn.factory as factory
-# from dataset import *
-# from model   import *
-
 
 
 def run_train():
@@ -23,8 +20,6 @@ def run_train():
 
 
     ## 
-    torch.backends.cudnn.benchmark = True
-    torch.backends.cudnn.deterministic = True
     torch.cuda.set_device(cfg.gpu)
     set_seed(cfg.seed)
 
@@ -32,7 +27,8 @@ def run_train():
     ## setup --------------------------------------------------------------------------------------
     initial_chckpoint = cfg.out_dir+'/checkpoint/top1.pth'
     for f in ['checkpoint', 'train', 'valid', 'backup']: os.makedirs(cfg.out_dir+'/'+f, exist_ok=True)
-    # backup_project_as_zip(PROJECT_PATH, out_dir+'/backup/code.train.%s.zip'%IDENTIFIER)
+    if 0:
+        backup_project_as_zip(PROJECT_PATH, cfg.out_dir+'/backup/code.train.%s.zip'%IDENTIFIER)
 
     log = Logger()
     log.open(cfg.out_dir+f'/log.train{cfg.fold}.txt',mode='a')
@@ -74,16 +70,18 @@ def do_train(cfg, model, log):
         'loss': float('inf'),
         'score': 0.0,
         'epoch': -1,
+        'fold': None,
     }
 
     ##TODO: load model from checkpoint path
-    # if cfg.resume_from:
-    #     detail = util.load_model(cfg.resume_from, model, optim=optim)
-    #     best.update({
-    #         'loss': detail['loss'],
-    #         'score': detail['score'],
-    #         'epoch': detail['epoch'],
-    #     })
+    if cfg.resume_from:
+        detail = load_model(cfg.resume_from, model, optim=optim)
+        best.update({
+            'loss': detail['loss'],
+            'score': detail['score'],
+            'epoch': detail['epoch'],
+            'fold': detail['fold'],
+        })
     
     folds = [fold for fold in range(cfg.n_fold) if cfg.fold != fold]
     loader_train = factory.get_dataloader(cfg.data.train, folds, log)
@@ -110,6 +108,7 @@ def do_train(cfg, model, log):
             'score': val['score'],
             'loss': val['loss'],
             'epoch': epoch,
+            'fold': cfg.fold,
         }
         if val['loss'] <= best['loss']:
             best.update(detail)
@@ -130,12 +129,15 @@ def run_nn(cfg, mode, model, loader, criterion=None, optim=None, scheduler=None,
         raise 
 
     t1 = time.time()
-    losses = []
+    # losses = []
     ids_all = []
     targets_all = []
     outputs_all = []
+    losses = AverageMeter()
 
     for i, (inputs, targets, ids) in enumerate(loader):
+        # zero out gradients so we can accumulate new ones over batches
+        optimizer.zero_grad()
 
         batch_size = len(inputs)
 
@@ -146,7 +148,7 @@ def run_nn(cfg, mode, model, loader, criterion=None, optim=None, scheduler=None,
         if mode in ['train', 'valid']:
             loss = criterion(outputs, targets)
             with torch.no_grad():
-                losses.append(loss.item())
+                losses.update(loss.item())
 
         if mode in ['train']:
             if apex:
@@ -166,7 +168,7 @@ def run_nn(cfg, mode, model, loader, criterion=None, optim=None, scheduler=None,
 
         elapsed = int(time.time() - t1)
         eta = int(elapsed / (i+1) * (len(loader)-(i+1)))
-        progress = f'\r[{mode}] {i+1}/{len(loader)} {elapsed}(s) eta:{eta}(s) loss:{(np.sum(losses)/(i+1)):.6f} loss200:{(np.sum(losses[-200:])/(min(i+1,200))):.6f} lr:{get_lr(optim):.2e}'
+        progress = f'\r[{mode}] {i+1}/{len(loader)} {elapsed}(s) eta:{eta}(s) loss:{losses.avg):.6f} lr:{get_lr(optim):.2e}'
         print(progress, end='')
         sys.stdout.flush()
 
