@@ -1,5 +1,8 @@
-from src.common import *
-from src.kaggle import *
+from src.utils.include import *
+from src.utils.common import *
+from src.utils.config import *
+from src.utils.util import *
+from src.utils.file import *
 
 def get_args():
     parser = argparse.ArgumentParser()

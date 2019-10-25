@@ -1,6 +1,10 @@
-from src.common import *
-import src.kaggle as kaggle
+from src.utils.include import *
+from src.utils.common import *
+from src.utils.config import *
+from src.utils.util import *
+from src.utils.file import *
 
+import src.dataset.misc as misc
 
 def get_args():
     parser = argparse.ArgumentParser()
@@ -72,8 +76,8 @@ def main():
 
     df = parse_position(df)
 
-    df['WindowCenter'] = df.WindowCenter.apply(lambda x: kaggle.get_dicom_value(x))
-    df['WindowWidth'] = df.WindowWidth.apply(lambda x: kaggle.get_dicom_value(x))
+    df['WindowCenter'] = df.WindowCenter.apply(lambda x: misc.get_dicom_value(x))
+    df['WindowWidth'] = df.WindowWidth.apply(lambda x: misc.get_dicom_value(x))
     df['PositionOrd'] = df.groupby('SeriesInstanceUID')[['Position3']].rank() / df.groupby('SeriesInstanceUID')[['Position3']].transform('count')
 
     df = add_adjacent_labels(df)

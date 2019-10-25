@@ -1,12 +1,12 @@
-workdir = './model/model001'
+workdir = './model001'
 seed = 20
 apex = True
 
 n_fold = 5
-epoch = 20
+epoch = 3
 resume_from = None
 
-batch_size = 26
+batch_size = 20
 num_workers = 4
 imgsize = (512, 512) #(height, width)
 
@@ -63,6 +63,7 @@ data = dict(
             num_workers=num_workers,
             pin_memory=False,
         ),
+        # transforms=[hflip, rotate, contrast, totensor],
         # transforms=[crop, hflip, rotate, contrast, totensor],
         transforms=[crop, hflip, rotate, totensor],
         dataset_policy='all',
@@ -80,6 +81,7 @@ data = dict(
             num_workers=num_workers,
             pin_memory=False,
         ),
+        # transforms=[hflip, rotate, contrast, totensor],
         # transforms=[crop, hflip, rotate, contrast, totensor],
         transforms=[crop, hflip, rotate, totensor],
         dataset_policy='all',
@@ -97,7 +99,8 @@ data = dict(
             num_workers=num_workers,
             pin_memory=False,
         ),
-        transforms=[crop, hflip, rotate, contrast, totensor],
+        # transforms=[crop, hflip, rotate, contrast, totensor],
+        transforms=[crop, hflip, rotate, totensor],
         dataset_policy='all',
         window_policy=window_policy,
     ),

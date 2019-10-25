@@ -7,8 +7,8 @@ from src.dataset.dataset import CustomDataset
 
 def get_model(cfg):
 
-    log.info(f'model:       {cfg.model.name}')
-    log.info(f'pretrained:  {cfg.model.pretrained}')
+    log.info(f'model: {cfg.model.name}')
+    log.info(f'pretrained: {cfg.model.pretrained}')
     
     if cfg.model.name in ['resnext101_32x8d_wsl']:
         log.info('backbone get from: facebookresearch/WSL-Images')
@@ -28,7 +28,7 @@ def get_model(cfg):
         model.last_linear.in_features,
         cfg.model.n_output,
     )
-    log.info(f'last layer:   {cfg.model.n_output}')
+    log.info(f'last layer: {cfg.model.n_output}')
 
     return model
 
@@ -55,9 +55,10 @@ def get_optim(cfg, parameters):
 def get_dataloader(cfg, folds=None):
 
     dataset = CustomDataset(cfg, folds)
-    # loader = DataLoader(dataset, **cfg.loader)
+    loader = DataLoader(dataset, **cfg.loader)
 
-    return dataset
+    return loader
+
 
 
 def get_transforms(cfg):
@@ -71,3 +72,23 @@ def get_transforms(cfg):
     transforms = [get_object(transform)(**transform.params) for transform in cfg.transforms]
 
     return A.Compose(transforms)
+
+
+
+def get_scheduler(cfg, optim, last_epoch):
+
+    if cfg.scheduler.name == 'ReduceLROnPlateau':
+        scheduler = lr_scheduler.ReduceLROnPlateau(
+            optim,
+            **cfg.scheduler.params,
+        )
+        scheduler.last_epoch = last_epoch
+    else:
+        scheduler = getattr(lr_scheduler, cfg.scheduler.name)(
+            optim,
+            last_epoch=last_epoch,
+            **cfg.scheduler.params,
+        )
+    log.info(f'last_epoch: {last_epoch}')
+
+    return scheduler
