@@ -6,7 +6,7 @@ n_fold = 5
 epoch = 3
 resume_from = None
 
-batch_size = 100
+batch_size = 60
 num_workers = 4
 imgsize = (512, 512) #(height, width)
 
@@ -28,11 +28,19 @@ model = dict(
     n_output=6,
 )
 
+# scheduler = dict(
+#     name='MultiStepLR',
+#     params=dict(
+#         milestones=[1,2],
+#         gamma=2/3,
+#     ),
+# )
+
 scheduler = dict(
-    name='MultiStepLR',
+    name='ReduceLROnPlateau',
     params=dict(
-        milestones=[1,2],
-        gamma=2/3,
+        factor=0.75,
+        patience=2,
     ),
 )
 
