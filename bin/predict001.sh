@@ -14,5 +14,5 @@ sub=./data/submission/${model}_fold${fold}_ep${ep}_test_tta${tta}.csv
 
 python -m src.train test ${conf} --snapshot ${snapshot} --output ${test} --n_tta ${tta} --fold ${fold} --gpu ${gpu}
 python -m src.postprocess.make_submission --input ${test} --output ${sub} --clip ${clip}
-#kaggle competitions submit rsna-intracranial-hemorrhage-detection -m "" -f ./data/submission/${sub}
+kaggle competitions submit rsna-intracranial-hemorrhage-detection -m "" -f ./data/submission/${sub}
 
