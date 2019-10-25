@@ -1,4 +1,4 @@
-workdir = './model/model001'
+workdir = './model001'
 seed = 20
 apex = True
 
@@ -63,7 +63,8 @@ data = dict(
             num_workers=num_workers,
             pin_memory=False,
         ),
-        transforms=[crop, hflip, rotate, contrast, totensor],
+        transforms=[hflip, rotate, contrast, totensor],
+        # transforms=[crop, hflip, rotate, contrast, totensor],
         dataset_policy='all',
         window_policy=window_policy,
     ),
@@ -79,7 +80,8 @@ data = dict(
             num_workers=num_workers,
             pin_memory=False,
         ),
-        transforms=[crop, hflip, rotate, contrast, totensor],
+        transforms=[hflip, rotate, contrast, totensor],
+        # transforms=[crop, hflip, rotate, contrast, totensor],
         dataset_policy='all',
         window_policy=window_policy,
     ),
