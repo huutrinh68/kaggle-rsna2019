@@ -71,7 +71,7 @@ def do_test(cfg, model):
         results = [run_nn(cfg.data.test, 'test', model, loader_test) for i in range(cfg.n_tta)]
     with open(cfg.output, 'wb') as f:
         pickle.dump(results, f)
-    log('saved to %s' % cfg.output)
+    log.info('saved to %s' % cfg.output)
 
 
 
@@ -85,7 +85,7 @@ def do_valid(cfg, model):
         results = [run_nn(cfg.data.valid, 'valid', model, loader_valid, criterion=criterion) for i in range(cfg.n_tta)]
     with open(cfg.output, 'wb') as f:
         pickle.dump(results, f)
-    log('saved to %s' % cfg.output)
+    log.info('saved to %s' % cfg.output)
 
 
 

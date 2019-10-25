@@ -12,7 +12,7 @@ def get_args():
     parser.add_argument('--input')
     parser.add_argument('--inputs', help='for ensembling. can be recursively nested for averaging.')
     parser.add_argument('--output', required=True)
-    parser.add_argument('--sample_submission', default='./input/stage_1_sample_submission.csv')
+    parser.add_argument('--sample_submission', default='./data/stage_1_sample_submission.csv')
     parser.add_argument('--clip', type=float, default=1e-6)
 
     args = parser.parse_args()
