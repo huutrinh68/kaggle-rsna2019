@@ -124,7 +124,7 @@ def run_train():
 
     # multi-gpu----------------------------------
     if device == 'cuda':
-        model = torch.nn.DataParallel(model) 
+        model = torch.nn.DataParallel(model, device_ids=[0, 1, 2, 3]) 
 
     ## ------------------------------------------
     if cfg.mode == 'train':
