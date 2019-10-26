@@ -42,12 +42,12 @@ class Logger(object):
 
         # write to file
         file_handler = logging.FileHandler(self.path, 'a')
-        file_handler.setFormatter(formatter)
+        # file_handler.setFormatter(formatter)
         self.logger.addHandler(file_handler)
 
         # stream to terminal
         console_handler = logging.StreamHandler()
-        console_handler.setFormatter(formatter)
+        # console_handler.setFormatter(formatter) # comment out if doesnot to output time information
         self.logger.addHandler(console_handler)
 
         # log.info('')
