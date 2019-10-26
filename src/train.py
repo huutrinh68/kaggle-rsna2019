@@ -120,7 +120,7 @@ def run_train():
     log.info('\n')
     log.info('** model setting **')
     model = factory.get_model(cfg)
-    
+
     # multi-gpu----------------------------------
     if device == 'cuda':
         model = torch.nn.DataParallel(model, device_ids=[0, 1, 2, 3]) 
@@ -218,8 +218,8 @@ def run_nn(cfg, mode, model, loader, criterion=None, optim=None, scheduler=None,
 
         batch_size = len(inputs)
 
-        inputs = inputs.cuda()
-        targets = targets.cuda()
+        inputs = inputs.to(device)
+        targets = targets.to(device)
         outputs = model(inputs)
 
         if mode in ['train', 'valid']:
