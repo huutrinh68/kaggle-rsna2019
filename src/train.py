@@ -122,8 +122,9 @@ def run_train():
     model = factory.get_model(cfg)
 
     # multi-gpu----------------------------------
-    if device == 'cuda':
-        model = torch.nn.DataParallel(model, device_ids=[0, 1, 2, 3]) 
+    if torch.cuda.device_count() > 1:
+        print("Let's use", torch.cuda.device_count(), "GPUs!")
+        model = nn.DataParallel(model)
     model.to(device)
 
     ## ------------------------------------------
