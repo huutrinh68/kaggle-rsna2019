@@ -196,7 +196,7 @@ def do_train(cfg, model):
         
         ## valid model --------------------------
         with torch.no_grad():
-            val = run_nn(cfg.data.valid, 'valid', model, loader_valid, criterion=criterion, log=log)
+            val = run_nn(cfg.data.valid, 'valid', model, loader_valid, criterion=criterion)
 
 
 
