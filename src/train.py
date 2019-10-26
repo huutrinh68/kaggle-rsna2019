@@ -120,11 +120,11 @@ def run_train():
     log.info('\n')
     log.info('** model setting **')
     model = factory.get_model(cfg)
-    model.to(device)
-
+    
     # multi-gpu----------------------------------
     if device == 'cuda':
         model = torch.nn.DataParallel(model, device_ids=[0, 1, 2, 3]) 
+    model.to(device)
 
     ## ------------------------------------------
     if cfg.mode == 'train':
