@@ -4,6 +4,7 @@ from src.utils.include import *
 
 # import other ----------------------------------
 from src.dataset.dataset import CustomDataset
+from src.dataset.transforms import RandomResizedCrop
 
 def get_model(cfg):
 
