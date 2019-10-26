@@ -74,7 +74,7 @@ import functools
 
 #augmentation tools
 import albumentations as A
-from albumentations.pytorch import ToTensor
+from albumentations.torch import ToTensor
 import pretrainedmodels
 
 #fp16
