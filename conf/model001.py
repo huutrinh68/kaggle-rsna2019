@@ -3,10 +3,10 @@ seed = 20
 apex = False
 
 n_fold = 5
-epoch = 3
+epoch =10
 resume_from = None
 
-batch_size = 30
+batch_size = 102
 num_workers = 4
 imgsize = (512, 512) #(height, width)
 

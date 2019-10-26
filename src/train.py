@@ -13,8 +13,8 @@ import src.factory as factory
 #  
 
 # common setting --------------------------------
-os.environ['CUDA_VISIBLE_DEVICES']='0'
-device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+os.environ['CUDA_VISIBLE_DEVICES']='0,1,2,3'
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 # get args from command line
 def get_args():
@@ -120,6 +120,10 @@ def run_train():
     log.info('** model setting **')
     model = factory.get_model(cfg)
     model.to(device)
+
+    # multi-gpu----------------------------------
+    if device == 'cuda':
+        model = torch.nn.DataParallel(model) 
 
     ## ------------------------------------------
     if cfg.mode == 'train':
