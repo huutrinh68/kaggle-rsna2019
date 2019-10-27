@@ -4,7 +4,7 @@ apex = False
 
 n_fold = 5
 epoch =10
-resume_from = None
+resume_from = './model001/fold0_ep0.pt'
 
 batch_size = 144
 num_workers = 4
