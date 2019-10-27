@@ -112,7 +112,7 @@ def run_train():
     set_seed(cfg.seed)
 
     # setup -------------------------------------
-    for f in ['checkpint', 'train', 'valid', 'test', 'backup']: os.makedirs(cfg.workdir+'/'+f, exist_ok=True)
+    for f in ['checkpoint', 'train', 'valid', 'test', 'backup']: os.makedirs(cfg.workdir+'/'+f, exist_ok=True)
     if 0: #not work perfect
         backup_project_as_zip(PROJECT_PATH, cfg.workdir+'/backup/code.train.%s.zip'%IDENTIFIER)
 
@@ -197,6 +197,21 @@ def do_train(cfg, model):
         ## valid model --------------------------
         with torch.no_grad():
             val = run_nn(cfg.data.valid, 'valid', model, loader_valid, criterion=criterion)
+
+        detail = {
+            'score': val['score'],
+            'loss': val['loss'],
+            'epoch': epoch,
+        }
+        if val['loss'] <= best['loss']:
+            best.update(detail)
+
+        save_model(model, optim, detail, cfg.fold, cfg.workdir)
+            
+        log('[best] ep:%d loss:%.4f score:%.4f' % (best['epoch'], best['loss'], best['score']))
+            
+        #scheduler.step(val['loss']) # reducelronplateau
+        scheduler.step()
 
 
 
