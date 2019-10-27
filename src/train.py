@@ -210,8 +210,8 @@ def do_train(cfg, model):
             
         log.info('[best] ep:%d loss:%.4f score:%.4f' % (best['epoch'], best['loss'], best['score']))
             
-        #scheduler.step(val['loss']) # reducelronplateau
-        scheduler.step()
+        scheduler.step(val['loss']) # reducelronplateau
+        # scheduler.step()
 
 
 
