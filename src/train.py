@@ -208,7 +208,7 @@ def do_train(cfg, model):
 
         save_model(model, optim, detail, cfg.fold, cfg.workdir)
             
-        log('[best] ep:%d loss:%.4f score:%.4f' % (best['epoch'], best['loss'], best['score']))
+        log.info('[best] ep:%d loss:%.4f score:%.4f' % (best['epoch'], best['loss'], best['score']))
             
         #scheduler.step(val['loss']) # reducelronplateau
         scheduler.step()
