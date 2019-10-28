@@ -80,7 +80,7 @@ def do_test(cfg, model):
 def do_valid(cfg, model):
     assert cfg.output
     criterion = factory.get_loss(cfg)
-    util.load_model(cfg.snapshot, model)
+    load_model(cfg.snapshot, model)
     loader_valid = factory.get_dataloader(cfg.data.valid, [cfg.fold])
     with torch.no_grad():
         results = [run_nn(cfg.data.valid, 'valid', model, loader_valid, criterion=criterion) for i in range(cfg.n_tta)]
@@ -206,7 +206,7 @@ def do_train(cfg, model):
         if val['loss'] <= best['loss']:
             best.update(detail)
 
-        save_model(model, optim, detail, cfg.fold, cfg.workdir)
+        save_model(model, optim, detail, cfg.fold, os.path.join(cfg.workdir, 'checkpoint'))
             
         log.info('[best] ep:%d loss:%.4f score:%.4f' % (best['epoch'], best['loss'], best['score']))
             
