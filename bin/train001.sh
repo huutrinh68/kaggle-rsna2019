@@ -1,6 +1,6 @@
 model=model001
 mode=train
-gpu=0
+gpu=1
 fold=0
 conf=./conf/${model}.py
 n_tta=1
