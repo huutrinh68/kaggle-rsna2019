@@ -125,7 +125,7 @@ def run_train():
     if torch.cuda.device_count() > 1:
         print("Let's use", torch.cuda.device_count(), "GPUs!")
         model = nn.DataParallel(model, device_ids=[1,2,3])
-    model.to(device)
+    # model.to(device)
 
     ## ------------------------------------------
     if cfg.mode == 'train':
