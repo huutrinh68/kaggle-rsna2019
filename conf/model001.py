@@ -3,7 +3,7 @@ seed = 20
 apex = False
 
 n_fold = 5
-epoch =10
+epoch =100
 resume_from = './model001/fold0_ep14.pt'
 
 batch_size = 144
@@ -18,7 +18,7 @@ loss = dict(
 optim = dict(
     name='Adam',
     params=dict(
-        lr=6e-5,
+        lr=5e-2,
     ),
 )
 
