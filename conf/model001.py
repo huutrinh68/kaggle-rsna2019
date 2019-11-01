@@ -6,7 +6,7 @@ n_fold = 5
 epoch =100
 resume_from = './model001/fold0_ep14.pt'
 
-batch_size = 144
+batch_size = 144*3/4
 num_workers = 4
 imgsize = (512, 512) #(height, width)
 
